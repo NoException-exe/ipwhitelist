@@ -1,0 +1,16 @@
+name: ipwhitelist
+version: '${project.version}'
+main: org.exp.ipwhitelist.Ipwhitelist
+api-version: '1.20'
+commands:
+  register-admin:
+    description: "Register admin for execute commands."
+    usage: "/register-admin <username> <password>"
+  add-player:
+    description: "Add Player to whitelist."
+    usage: "/add-player <PlayerNickName> <adminUsername> <adminPassword>"
+  remove-player:
+    description: "Remove Player to whitelist."
+    usage: "/remove-player <PlayerNickName> <adminUsername> <adminPassword>"
+  whitelist-start:
+    description: "Turn on/off plugin"
