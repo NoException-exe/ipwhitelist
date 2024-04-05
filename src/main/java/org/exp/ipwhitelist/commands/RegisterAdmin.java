@@ -22,19 +22,18 @@ public class RegisterAdmin implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String str, String[] args) {
         if(commandSender instanceof ConsoleCommandSender){
-            if (args.length < 2) {
-                commandSender.sendMessage("Use register-admin <username> <password>");
-                return true;
+            if (args.length < 3) {
+                return false;
             }
 
             //userdata
             String username = args[0].toLowerCase();
             String password = args[1];
+            String AdminNickName =  args[2];
 
 
             //checking if username exist;
-            if (adminRepository.exist(username))
-            {
+            if (adminRepository.exist(username, AdminNickName)) {
                 commandSender.sendMessage("User admin already exist.");
                 return true;
             }
@@ -45,14 +44,12 @@ public class RegisterAdmin implements CommandExecutor {
                 return true;
             }
 
-
             //encrypt password
             Bcrypt bcrypt = new Bcrypt(password);
             String hashedPassword = bcrypt.hashPassword();
 
             //creating admin
-            adminRepository.create(username, hashedPassword);
-
+            adminRepository.create(username, hashedPassword, AdminNickName);
             return true;
         }
         else  {

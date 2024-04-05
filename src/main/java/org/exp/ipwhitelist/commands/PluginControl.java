@@ -15,9 +15,8 @@ public class PluginControl implements CommandExecutor {
 
         if (commandSender instanceof ConsoleCommandSender) {
 
-
+            //true or false
             getInstance.isEnable = !getInstance.isEnable;
-
 
             commandSender.sendMessage("This plugin is " +  (getInstance.isEnable? "Enable": "Disable"));
             return true;

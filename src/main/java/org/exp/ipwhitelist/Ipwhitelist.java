@@ -2,12 +2,10 @@ package org.exp.ipwhitelist;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.exp.ipwhitelist.commands.AddPlayer;
-import org.exp.ipwhitelist.commands.PluginControl;
-import org.exp.ipwhitelist.commands.RemovePlayer;
-import org.exp.ipwhitelist.commands.RegisterAdmin;
+import org.exp.ipwhitelist.commands.*;
 import org.exp.ipwhitelist.db.SQLite;
 import org.exp.ipwhitelist.listeners.PlayerJoin;
+import org.exp.ipwhitelist.listeners.PlayerLeft;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +45,7 @@ public final class Ipwhitelist extends JavaPlugin {
 
             //register event
             Bukkit.getPluginManager().registerEvents(new PlayerJoin(sqlite.getConnection()), this);
+            Bukkit.getPluginManager().registerEvents(new PlayerLeft(sqlite.getConnection()), this);
 
             //register command
             Bukkit.getPluginCommand("register-admin").setExecutor(new RegisterAdmin(sqlite.getConnection()));
@@ -59,6 +58,9 @@ public final class Ipwhitelist extends JavaPlugin {
 
             //on/off command
             Bukkit.getPluginCommand("whitelist-start").setExecutor(new PluginControl());
+
+            //login
+            Bukkit.getPluginCommand("wl-login").setExecutor(new PlayerLogin(sqlite.getConnection()));
 
         }
         else{

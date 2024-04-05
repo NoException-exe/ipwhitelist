@@ -1,5 +1,6 @@
 package org.exp.ipwhitelist.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,6 @@ public class RemovePlayer implements CommandExecutor {
                 return true;
             }
 
-
             String playerName = args[0].toLowerCase();
 
             if (!playerRepository.exist(playerName))
@@ -39,7 +39,6 @@ public class RemovePlayer implements CommandExecutor {
                 commandSender.sendMessage("Player not exist.");
                 return true;
             }
-
 
             playerRepository.delete(playerName);
 
@@ -49,34 +48,27 @@ public class RemovePlayer implements CommandExecutor {
 
             Player player = (Player) commandSender;
 
-            if (args.length < 3) {
+            if (args.length < 1) {
                 return false;
             }
 
             String playerName = args[0].toLowerCase();
-
-            //auth
-            String username = args[1].toLowerCase();
-            String password = args[2];
+            String adminNickname = player.getName().toLowerCase();
 
 
-            //To use the command outside the console you need to log in
-            if (!authPlayer.login(username, password))
-            {
-                player.sendMessage("Invalid login.");
+            if (!authPlayer.playerIsAuthenticated(adminNickname)) {
+                player.sendMessage("Login first /wl-login <username> <password>");
                 return true;
             }
 
-            if (!playerRepository.exist(playerName))
-            {
+
+            if (!playerRepository.exist(playerName)){
                 commandSender.sendMessage("Player not exist.");
                 return true;
             }
 
             playerRepository.delete(playerName);
-
-            player.sendMessage("Player removed to whitelist.");
-
+            player.sendMessage("Player removed from whitelist.");
             return  true;
 
         }

@@ -47,24 +47,18 @@ public class AddPlayer implements CommandExecutor {
         else {
             Player player = (Player) commandSender;
 
-            if (args.length < 3) {
+            if (args.length < 1) {
                 return false;
             }
 
             String playerName = args[0].toLowerCase();
-
-            //auth
-            String username = args[1].toLowerCase();
-            String password = args[2];
+            String adminNickname = player.getName().toLowerCase();
 
 
-            //To use the command outside the console you need to log in
-            if (!authPlayer.login(username, password))
-            {
-                player.sendMessage("Invalid login.");
+            if (!authPlayer.playerIsAuthenticated(adminNickname)) {
+                player.sendMessage("Login first /wl-login <username> <password>");
                 return true;
             }
-
 
             if (playerRepository.exist(playerName)) {
                 player.sendMessage("Player already exist.");

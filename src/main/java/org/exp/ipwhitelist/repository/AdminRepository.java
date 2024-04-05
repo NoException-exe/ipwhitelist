@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class AdminRepository implements IAdminInterface {
@@ -19,14 +20,16 @@ public class AdminRepository implements IAdminInterface {
     }
 
     @Override
-    public boolean exist(String username) {
+    public boolean exist(String username, String adminNickName) {
         try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.findAdminQuery)){
             statement.setString(1, username);
+            statement.setString(2, adminNickName);
             ResultSet resultSet = statement.executeQuery();
 
            if (!resultSet.next())
                return false;
 
+           //set data
            this.data = resultSet.getString("password");
 
            return true;
@@ -44,10 +47,11 @@ public class AdminRepository implements IAdminInterface {
     }
 
     @Override
-    public void create(String username, String password) {
+    public void create(String username, String password, String adminNickname){
         try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.crateNewAdminQuery)){
             statement.setString(1, username);
             statement.setString(2, password);
+            statement.setString(3, adminNickname);
 
             int rowsInserted = statement.executeUpdate();
 
@@ -60,6 +64,41 @@ public class AdminRepository implements IAdminInterface {
         } catch (SQLException err) {
             Bukkit.getConsoleSender().sendMessage("Error: " + err.getMessage());
         }
+    }
+
+    @Override
+    public void update(String username, boolean authenticated) {
+        try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.updateAdminAuthQuery)){
+            statement.setBoolean(1, authenticated);
+            statement.setString(2, username);
+            statement.setString(3, username);
+
+            int rowsInserted = statement.executeUpdate();
+
+            if (rowsInserted > 0) {
+                Bukkit.getConsoleSender().sendMessage("Admin updated with success");
+            } else {
+                Bukkit.getConsoleSender().sendMessage("Failed to update admin");
+            }
+
+        } catch (SQLException err) {
+            Bukkit.getConsoleSender().sendMessage("Error: " + err.getMessage());
+        }
+    }
+
+    @Override
+    public boolean IsAuthenticated(String adminNickName) {
+        try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.adminIsAuthenticatedQuery)){
+            statement.setString(1, adminNickName);
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
+
+        }catch (SQLException err){
+            Bukkit.getConsoleSender().sendMessage("Error: " + err.getMessage());
+        }
+
+        return false;
     }
 
 }
