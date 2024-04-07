@@ -2,7 +2,7 @@ package org.exp.ipwhitelist.repository;
 
 import org.bukkit.Bukkit;
 import org.exp.ipwhitelist.interfaces.IPlayerInterface;
-import org.exp.ipwhitelist.query.SQLiteQuery;
+import org.exp.ipwhitelist.query.SQLQuery;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +21,7 @@ public class PlayerRepository implements IPlayerInterface {
 
     @Override
     public boolean exist(String playerIp) {
-        try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.playerQuery)){
+        try (PreparedStatement statement = this.connection.prepareStatement(SQLQuery.FIND_PLAYER)){
             statement.setString(1, playerIp);
             ResultSet resultSet = statement.executeQuery();
 
@@ -41,7 +41,7 @@ public class PlayerRepository implements IPlayerInterface {
 
     @Override
     public void create(String PlayerName) {
-        try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.createNewPlayerQuery)){
+        try (PreparedStatement statement = this.connection.prepareStatement(SQLQuery.CREATE_NEW_PLAYER)){
             statement.setString(1, PlayerName);
 
             int rowsInserted = statement.executeUpdate();
@@ -64,7 +64,7 @@ public class PlayerRepository implements IPlayerInterface {
 
     @Override
     public void update(String playerName, String playerIP) {
-        try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.updatePlayerIpQuery)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(SQLQuery.UPDATE_PLAYER_IP)) {
             statement.setString(1, playerIP);
             statement.setString(2, playerName);
 
@@ -84,7 +84,7 @@ public class PlayerRepository implements IPlayerInterface {
 
     @Override
     public void delete(String PlayerName) {
-        try (PreparedStatement statement = this.connection.prepareStatement(SQLiteQuery.deletePlayerQuery)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(SQLQuery.DELETE_PLAYER_WHITELIST)) {
             statement.setString(1, PlayerName);
 
             int rowsInserted = statement.executeUpdate();

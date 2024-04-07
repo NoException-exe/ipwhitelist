@@ -8,5 +8,4 @@ public interface ISqlLiteInterface {
     public boolean connect(Plugin plugin);
     public Connection getConnection();
     public void closeConnection();
-    public void createTable();
 }

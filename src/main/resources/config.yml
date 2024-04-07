@@ -1,0 +1,5 @@
+database: "ipwhitelist" #database name
+db-host: "localhost"
+db-user: "root"
+db-passwd: ""
+db-port: 3306 #this is default mysql port, changer only necessary

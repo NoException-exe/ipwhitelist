@@ -3,8 +3,12 @@ package org.exp.ipwhitelist.db;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.Bukkit;
 import org.exp.ipwhitelist.interfaces.ISqlLiteInterface;
-import org.exp.ipwhitelist.query.SQLiteQuery;
 
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -36,7 +40,6 @@ public class SQLite implements ISqlLiteInterface {
     @Override
     public void closeConnection() {
         if(connection != null){
-
             try {
                 connection.close();
                 Bukkit.getConsoleSender().sendMessage("SQLite connection closed");
@@ -44,26 +47,6 @@ public class SQLite implements ISqlLiteInterface {
             catch (SQLException err){
                 Bukkit.getConsoleSender().sendMessage("Error: " + err.getMessage());
             }
-        }
-    }
-
-    @Override
-    public void createTable() {    //create new table if not exist.
-        try {
-            Statement statement = connection.createStatement();
-
-            if(statement.execute(SQLiteQuery.createWhitelistTableQuery)){
-                Bukkit.getConsoleSender().sendMessage("Tables Whitelist Created");
-            }
-
-             if(statement.execute(SQLiteQuery.createAdminTableQuery)){
-                Bukkit.getConsoleSender().sendMessage("Table Admin Created");
-            }
-
-            statement.close();
-        }
-        catch (SQLException err) {
-            Bukkit.getConsoleSender().sendMessage("Error: " + err.getMessage());
         }
     }
 

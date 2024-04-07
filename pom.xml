@@ -6,7 +6,7 @@
 
   <groupId>org.exp</groupId>
   <artifactId>ipwhitelist</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
 
   <name>ipwhitelist</name>
@@ -67,12 +67,10 @@
           <version>1.20.4-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
-
       <dependency>
           <groupId>org.mindrot</groupId>
           <artifactId>jbcrypt</artifactId>
           <version>0.4</version>
       </dependency>
-
   </dependencies>
 </project>
